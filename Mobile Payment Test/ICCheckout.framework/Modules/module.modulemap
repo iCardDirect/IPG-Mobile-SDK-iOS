@@ -1,0 +1,6 @@
+framework module ICCheckout {
+  umbrella header "ICCheckout.h"
+
+  export *
+  module * { export * }
+}
