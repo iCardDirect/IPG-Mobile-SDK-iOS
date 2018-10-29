@@ -79,11 +79,11 @@ Accepting mobile payments for merchants
 ```Swift
 ...
 func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-    ICCheckout.initialize(withMerchantId: "",
-                          originator: "",
+  ICCheckout.initialize(withMerchantId: "112",
+                          originator: "33",
                           currency: .EUR,
-                          certificate: "",
-                          privateKey: "",
+                          certificate: "MIIBkDCB+q ...",
+                          privateKey: "MIICXAIBAAKBg ...",
                           bundle: .main,
                           keyIndex: 1,
                           isSandbox: true)
@@ -95,7 +95,6 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 
 The SDK allows further configuration by using the existing settings. These are the options:
   * Supported card networks – Allows you to determine the accepted card networks when using your app. The default value includes Visa, Visa Electron, MasterCard, Maestro and VPay.
-  * Address Verification Service (AVS) – You will be able to capture the consumer’s country and postcode as an additional security layer.
   
   ## Perform a Payment
  
@@ -148,8 +147,8 @@ func storeCardDidFailWithError(_ error: ICCheckoutError) {
  
 ```Swift
 let controller = ICPaymentViewController(cartItems: [],
-                                         orderId: "",
-                                         cardToken: "",
+                                         orderId: "12345678",
+                                         cardToken: "card token",
                                          delegate: self)
 
 self.present(controller, animated: true, completion: nil)
