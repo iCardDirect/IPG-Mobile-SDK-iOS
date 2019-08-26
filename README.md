@@ -93,6 +93,9 @@ func application(_ application: UIApplication, didFinishLaunchingWithOptions lau
 ...
 ```
 
+The SDK allows further configuration by using the existing settings. These are the options:
+  * Supported card networks – Allows you to determine the accepted card networks when using your app. The default value includes Visa, Visa Electron, MasterCard, Maestro and VPay.
+
 To be able to upload your project in TestFlight your archive's build would need to be built for certain architectures only.
 For that reason you should go to your project's target -> Build Phases -> New Run Script Phase and add the Run Script provided below:
 
@@ -136,10 +139,7 @@ echo $(lipo -info "$FRAMEWORK_EXECUTABLE_PATH")
 
 done
 ```
-
-The SDK allows further configuration by using the existing settings. These are the options:
-  * Supported card networks – Allows you to determine the accepted card networks when using your app. The default value includes Visa, Visa Electron, MasterCard, Maestro and VPay.
-  
+ 
   ## Perform a Payment
  
 Note: Create an ICPaymentViewController with the required params:
