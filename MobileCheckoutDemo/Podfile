@@ -1,0 +1,11 @@
+# Uncomment the next line to define a global platform for your project
+# platform :ios, '9.0'
+#source 'https://testproj1232111.000webhostapp.com/iCardDirectMobileSDK.podspec'
+
+target 'MobileCheckoutDemo' do
+  # Comment the next line if you don't want to use dynamic frameworks
+  use_frameworks!
+
+  pod 'iCardDirectMobileSDK', :podspec => 'https://icard.com/iCardDirectSdk/iCardDirectMobileSDK.podspec'
+  
+end

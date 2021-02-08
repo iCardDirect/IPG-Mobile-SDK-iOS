@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="OrderTableViewCell" customModule="MobileCheckoutDemo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="414" height="144"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Purchase" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xmx-Xv-fm9">
+                    <rect key="frame" x="12" y="12" width="336" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="20.00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Atc-YC-hiP" customClass="SelectableLabel" customModule="MobileCheckoutDemo" customModuleProvider="target">
+                    <rect key="frame" x="360" y="12" width="42" height="17"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="42" id="5iE-qJ-wu8"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Order ID:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1hF-31-XRT">
+                    <rect key="frame" x="12" y="37" width="59" height="17"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="59" id="5Aj-VR-d3F"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123456878" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="i3K-Gx-D5U" customClass="SelectableLabel" customModule="MobileCheckoutDemo" customModuleProvider="target">
+                    <rect key="frame" x="83" y="37" width="232" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="23.09.2020" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zBV-4d-br7" customClass="SelectableLabel" customModule="MobileCheckoutDemo" customModuleProvider="target">
+                    <rect key="frame" x="327" y="37" width="75" height="14.5"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="75" id="lEG-h8-N01"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Transaction ref:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QbV-94-2iv">
+                    <rect key="frame" x="12" y="62" width="140" height="17"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="140" id="ncM-bf-dqZ"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="123456878" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cn6-ej-tJm" customClass="SelectableLabel" customModule="MobileCheckoutDemo" customModuleProvider="target">
+                    <rect key="frame" x="164" y="62" width="191" height="17"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="12:21" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fSN-0r-U6g" customClass="SelectableLabel" customModule="MobileCheckoutDemo" customModuleProvider="target">
+                    <rect key="frame" x="367" y="62" width="35" height="14.5"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="35" id="RhX-Q9-bBX"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                    <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <nil key="highlightedColor"/>
+                </label>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="Atc-YC-hiP" secondAttribute="trailing" constant="12" id="5We-5w-oPd"/>
+                <constraint firstItem="fSN-0r-U6g" firstAttribute="leading" secondItem="cn6-ej-tJm" secondAttribute="trailing" constant="12" id="5yN-8Q-DM3"/>
+                <constraint firstItem="zBV-4d-br7" firstAttribute="leading" secondItem="i3K-Gx-D5U" secondAttribute="trailing" constant="12" id="7aG-cQ-G6U"/>
+                <constraint firstItem="Xmx-Xv-fm9" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="12" id="9M9-fE-fv0"/>
+                <constraint firstItem="i3K-Gx-D5U" firstAttribute="leading" secondItem="1hF-31-XRT" secondAttribute="trailing" constant="12" id="CQi-es-3pB"/>
+                <constraint firstItem="1hF-31-XRT" firstAttribute="top" secondItem="Xmx-Xv-fm9" secondAttribute="bottom" constant="8" id="DhD-8J-nq9"/>
+                <constraint firstItem="Xmx-Xv-fm9" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="12" id="HTn-4V-hZU"/>
+                <constraint firstItem="Atc-YC-hiP" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="12" id="MHI-qI-Xer"/>
+                <constraint firstItem="i3K-Gx-D5U" firstAttribute="top" secondItem="Xmx-Xv-fm9" secondAttribute="bottom" constant="8" id="Oeu-fb-834"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="fSN-0r-U6g" secondAttribute="trailing" constant="12" id="QjB-sK-WXK"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="QbV-94-2iv" secondAttribute="bottom" constant="12" id="RJU-0v-yHx"/>
+                <constraint firstItem="fSN-0r-U6g" firstAttribute="top" secondItem="i3K-Gx-D5U" secondAttribute="bottom" constant="8" id="RYp-mI-hRL"/>
+                <constraint firstItem="Atc-YC-hiP" firstAttribute="leading" secondItem="Xmx-Xv-fm9" secondAttribute="trailing" constant="12" id="UOD-tf-ZvL"/>
+                <constraint firstItem="cn6-ej-tJm" firstAttribute="top" secondItem="i3K-Gx-D5U" secondAttribute="bottom" constant="8" id="XrL-BN-ZTl"/>
+                <constraint firstItem="QbV-94-2iv" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="12" id="axq-5S-sgh"/>
+                <constraint firstItem="cn6-ej-tJm" firstAttribute="leading" secondItem="QbV-94-2iv" secondAttribute="trailing" constant="12" id="eI3-xZ-bSo"/>
+                <constraint firstItem="zBV-4d-br7" firstAttribute="top" secondItem="Xmx-Xv-fm9" secondAttribute="bottom" constant="8" id="g5R-Si-cYv"/>
+                <constraint firstItem="1hF-31-XRT" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="12" id="mqJ-8b-khq"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="zBV-4d-br7" secondAttribute="trailing" constant="12" id="pkt-jl-Kia"/>
+                <constraint firstItem="QbV-94-2iv" firstAttribute="top" secondItem="1hF-31-XRT" secondAttribute="bottom" constant="8" id="uBY-D9-x07"/>
+            </constraints>
+            <nil key="simulatedTopBarMetrics"/>
+            <nil key="simulatedBottomBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <connections>
+                <outlet property="amountLabel" destination="Atc-YC-hiP" id="iGo-fd-IgS"/>
+                <outlet property="dateLabel" destination="zBV-4d-br7" id="qQw-H4-Vlm"/>
+                <outlet property="orderIdLabel" destination="1hF-31-XRT" id="nXY-P6-WhA"/>
+                <outlet property="orderIdvalueLabel" destination="i3K-Gx-D5U" id="UaG-Mf-Po7"/>
+                <outlet property="timeLabel" destination="fSN-0r-U6g" id="gQ9-MG-ERy"/>
+                <outlet property="titleLabel" destination="Xmx-Xv-fm9" id="KUI-sM-fcw"/>
+                <outlet property="transactionRefLabel" destination="QbV-94-2iv" id="bZB-PR-7Yy"/>
+                <outlet property="transactionRefValueLabel" destination="cn6-ej-tJm" id="DVB-IK-vlF"/>
+            </connections>
+            <point key="canvasLocation" x="131.8840579710145" y="357.58928571428572"/>
+        </view>
+    </objects>
+</document>
