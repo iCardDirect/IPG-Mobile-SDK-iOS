@@ -13,26 +13,19 @@ Accepting mobile payments for merchants
   
   * [Setup](#setup)
   
-  * [Perform a Payment](#perform-a-payment)
+  * [Make a payment with a new or already stored card](#make-a-payment-with-a-new-or-already-stored-card)
+  
+  * [Make a payment and store card](#make-a-payment-and-store-card)
   
   * [Add a Card](#add-a-card)
-  
-  * [Perform a Payment with stored card](#perform-a-payment-with-stored-card)
-  
+ 
   * [Perform a Refund](#perform-a-refund)
   
   * [Check transaction status](#check-transaction-status)
   
 * [UI customization](#ui-customization)
 
-  * [Hide custom name field](#hide-custom-name-field)
-  
-  * [Set custom banner](#set-custom-banner)
-
-  * [Configuring displayed colors](#configuring-displayed-colors)
-  
-  * [Configuring displayed text](#configuring-displayed-text)
-  
+* [Enumerators](#enumerators)
   
 # Security and availability
   
@@ -47,7 +40,7 @@ Accepting mobile payments for merchants
   The iCard Mobile Checkout iOS SDK will provide:
   * Secured communication channel with the Merchant
   * Storing of merchant private data (shopping cart, amount, payment methods, transaction details etc.)
-  * Financial transactions to VISA, MasterCard вЂ“ transparent for the Merchant
+  * Financial transactions to VISA, MasterCard transparent for the Merchant
   * Operations for the front-end: Purchase transaction
   * Operations for the back-end: Refund, Void, Payment
   * 3D processing
@@ -68,7 +61,7 @@ Accepting mobile payments for merchants
   ## Requirements
   
   * Xcode 
-  * iOS device with an OS version of 8.2 or higher
+  * iOS device with an OS version of 11.0 or higher
 
   ## Setup
   
@@ -76,196 +69,207 @@ Accepting mobile payments for merchants
   integration and add them to your project. Test settings are ready to use in the test app. Live settings will be kindly provided 
   to you upon integration process.
   
-```Swift
-...
-func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-  ICCheckout.initialize(withMerchantId: "112",
-                          originator: "33",
-                          currency: .EUR,
-                          certificate: "MIIBkDCB+q ...",
-                          privateKey: "MIICXAIBAAKBg ...",
-                          bundle: .main,
-                          keyIndex: 1,
-                          isSandbox: true)
+  1. Add following code into the Mobile App podfile and run pod install:
     
-    return true
-}
-...
+   ```Swift
+      pod 'iCardDirectMobileSDK', :podspec => 'https://icard.com/iCardDirectSdk/iCardDirectMobileSDK.podspec'
+   ```
+  
+  ## Initialization
+  
+```Swift
+    let sdk = ICardDirectSDK.shared
+    sdk.initialize(    
+                        mid               :"112",             
+                        currency          : "EUR",              
+                        clientPrivateKey  : "MIIBkDCB+q ..",    
+                        icardPublicKey    : "MIICXAIBAAKBg..",  
+                        originator        : "33",
+                        backendUrl        : "",
+                        taxUrl            : "",
+                        language          : "en",   // Available languages en, bg, de, es, it, nl, ro. Translation is managed by SDK.
+                        clientDetails     : nil,
+                        keyIndex          : 1,      
+                        isSandbox         : true)
+    
 ```
-
-The SDK allows further configuration by using the existing settings. These are the options:
+ 
+ The SDK allows further configuration by using the existing settings. These are the options:
   * Supported card networks – Allows you to determine the accepted card networks when using your app. The default value includes Visa, Visa Electron, MasterCard, Maestro and VPay.
-
-To be able to upload your project in TestFlight your archive's build would need to be built for certain architectures only.
-For that reason you should go to your project's target -> Build Phases -> New Run Script Phase and add the Run Script provided below:
-
-```Python
-echo "Target architectures: $ARCHS"
-
-APP_PATH="${TARGET_BUILD_DIR}/${WRAPPER_NAME}"
-
-find "$APP_PATH" -name 'ICCheckout.framework' -type d | while read -r FRAMEWORK
-do
-FRAMEWORK_EXECUTABLE_NAME=$(defaults read "$FRAMEWORK/Info.plist" CFBundleExecutable)
-FRAMEWORK_EXECUTABLE_PATH="$FRAMEWORK/$FRAMEWORK_EXECUTABLE_NAME"
-echo "Executable is $FRAMEWORK_EXECUTABLE_PATH"
-echo $(lipo -info "$FRAMEWORK_EXECUTABLE_PATH")
-
-FRAMEWORK_TMP_PATH="$FRAMEWORK_EXECUTABLE_PATH-tmp"
-
-# remove simulator's archs if location is not simulator's directory
-case "${TARGET_BUILD_DIR}" in
-*"iphonesimulator")
-echo "No need to remove archs"
-;;
-*)
-if $(lipo "$FRAMEWORK_EXECUTABLE_PATH" -verify_arch "i386") ; then
-lipo -output "$FRAMEWORK_TMP_PATH" -remove "i386" "$FRAMEWORK_EXECUTABLE_PATH"
-echo "i386 architecture removed"
-rm "$FRAMEWORK_EXECUTABLE_PATH"
-mv "$FRAMEWORK_TMP_PATH" "$FRAMEWORK_EXECUTABLE_PATH"
-fi
-if $(lipo "$FRAMEWORK_EXECUTABLE_PATH" -verify_arch "x86_64") ; then
-lipo -output "$FRAMEWORK_TMP_PATH" -remove "x86_64" "$FRAMEWORK_EXECUTABLE_PATH"
-echo "x86_64 architecture removed"
-rm "$FRAMEWORK_EXECUTABLE_PATH"
-mv "$FRAMEWORK_TMP_PATH" "$FRAMEWORK_EXECUTABLE_PATH"
-fi
-;;
-esac
-
-echo "Completed for executable $FRAMEWORK_EXECUTABLE_PATH"
-echo $(lipo -info "$FRAMEWORK_EXECUTABLE_PATH")
-
-done
+  * Address Verification Service (AVS) – You will be able to capture the consumer’s country and postcode as an additional security layer.
+  
+  ## Make a payment with a new or already stored card
+   
+```Swift
+ICardDirectSDK.shared.purchase(  
+                        presentingViewController  : viewController, 
+                        orderId                   : orderId,  
+                        cardToken                 : "",         // optional if you pay with stored card
+                        cartItems                 : [cartItem],
+                        expiryDate                : "12/22",
+                        cardHolderName            : "", 
+                        cardCustomName            : "", 
+                        delegate                  : delegate)
 ```
- 
-  ## Perform a Payment
- 
-Note: Create an ICPaymentViewController with the required params:
+
+Delegate should implement the following protocol:
 
 ```Swift
-  let controller = ICPaymentViewController(cartItems: [], orderId: "1234567890", delegate: self)
-  self.present(controller, animated: true, completion: nil)
+public protocol ICCheckoutSdkPurchaseDelegate {
+  func transactionReference(transactionRefModel: ICTransactionRefModel)
+  func errorWithTransactionReference(status: Int)
+}
 ```
 Note: Please make sure that you are using a unique Order ID.
 
-  In your delegate, implement the paymentDidComplete: and paymentDidFailWithError: methods to receive a reference of the payment card, customer ID and transaction reference from Performing a Payment or an error:
-  
+## Make a payment and store card
 ```Swift
-...
-func paymentDidComplete(withReference transactionReference: String) {
-        
-}
-
-func paymentDidFailWithError(_ error: ICCheckoutError) {
-
-}
-...
+ICardDirectSDK.shared.storeCardAndPurchase(
+                          presentingViewController  : viewController,
+                          orderId                   : orderId,
+                          cartItems                 : [cartItem],
+                          cardStoreDelegate         : delegate)
 ```
-  
+
+Delegate should implement the following protocol:
+
+```Swift
+public protocol CardStoreDelegate {
+    func cardStored(storedCardModel: ICStoredCard)  // If is used for storeCard
+    func errorWithCardStore(status: Int)
+    func cardStoredAndPurchaseFinished(storedCardModel: ICStoredCard) // If is used for storeCardAndPurchase
+}
+```
+
+Note: Please make sure that you are using a unique Order ID.
+
 ## Add a Card
 
-Note: Create an ICStoreCardViewController with the required params:
-
 ```Swift
-let controller = ICStoreCardViewController(verificationAmount: 1.00, delegate: self)
-self.present(controller, animated: true, completion: nil)
+ICardDirectSDK.shared.storeCard(
+                        presentingViewController  : viewController, 
+                        orderId                   : orderId, 
+                        storeCardDelegate         : delegate)
 ```
  
- In your delegate, implement the storeCardDidComplete: and storeCardDidFailWithError: methods to receive a card reference for the linked card or an error:
+Delegate should implement the following protocol:
  
  ```Swift
-func storeCardDidComplete(withData storedCard: ICStoredCard) {
-    
+public protocol CardStoreDelegate {
+  func cardStored(storedCardModel: ICStoredCard) // If is used for storeCard
+  func errorWithCardStore(status: Int)
+  func cardStoredAndPurchaseFinished(storedCardModel: ICStoredCard) // If is used for storeCardAndPurchase
 }
-    
-func storeCardDidFailWithError(_ error: ICCheckoutError) {
-
-}
- ```
- 
- ## Perform a Payment with stored card
- 
- Create an ICPaymentViewController controller with the required params:
- 
-```Swift
-let controller = ICPaymentViewController(cartItems: [],
-                                         orderId: "12345678",
-                                         cardToken: "card token",
-                                         delegate: self)
-
-self.present(controller, animated: true, completion: nil)
-```
-Note: Please make sure that you are using a unique Order ID.
-
-In your delegate, implement the paymentDidComplete: and paymentDidFailWithError: methods to receive a reference of the payment card, customer ID and transaction reference from Performing a Payment:
-
-```Swift
-...
-func paymentDidComplete(withReference transactionReference: String) {
-        
-}
-
-func paymentDidFailWithError(_ error: ICCheckoutError) {
-
-}
-...
 ```
 
- ## Perform a Refund
+Note: Please make sure that you are using a unique Order ID. 
+
+## Perform a Refund
 
 Refunding a payment requires that you have the transactionReference of the payment transaction. Check that you have initialized the SDK before attempting to perform a refund.
 
 ```Swift
-ICCheckout.refundTransaction(transaction.reference, fromOrder: transaction.orderId, amount: amount, completion: { (transactionRef) in
-    
-}, failure: { (error) in
-    
-})
+ICardDirectSDK.shared.refundTransaction(  
+                        transactionReference  : String,
+                        amount                : Double,
+                        orderId               : String,
+                        refundDelegate        : delegate) /* implementation of the RefundDelegate protocol */
 ```
+
+Delegate should implement the following protocol:
+
+```Swift
+public protocol RefundDelegate {
+    func refundSuccess(transactionReference: String, amount: Double, currency: String)
+    func errorWithRefund(status: Int)
+}
+```
+
 Note: Please make sure that you are using the correct Transaction Reference ID for the transaction that you want to be refunded.
 
  ## Check transaction status
  
- You can choose between the transaction types of Purchase or Refund and to send the order ID of which transaction status needed to be checked. The method will retrieve the transaction status and the transaction reference:
+ You can choose between transaction types of Purchase or Refund and send the order ID of the transaction that need to be checked. The method will retrieve the transaction status and the transaction reference:
  
 ```Swift
-ICCheckout.getOrderStatus(orderId,
-                          transactionType: type,
-                          completion: { (status, reference) in
-                          
-},
-                          failure: { (error) in
-                          
-})
+ICardDirectSDK.shared.getTransactionStatus( 
+                          orderId                       : String,
+                          getTransactionStatusDelegate  : delegate)
+```
+
+Delegate should implement the following protocol:
+
+```Swift
+public protocol GetTransactionStatusDelegate {
+    func transactionStatusSuccess(transactionStatus: Int, transactionReference: String)
+    func errorWithTransactionStatus(status: Int)
+}
 ```
 
 # UI customization
 
-Use iCard Mobile Checkout iOS SDK UI components for a frictionless checkout in your app. Minimize your PCI scope with a UI that can be themed to match your brand colors.
-
-Built-in features include quick data entry, optional security checks and fraud prevention that let you focus on developing other areas of your app.
+Use iCard Mobile Checkout iOS SDK UI components for a frictionless checkout in your app. Minimize your PCI scope with an UI that can be themed to match your brand colors.
 
 The iCard Mobile Checkout iOS SDK supports a range of UI customization options to allow you to match payment screen appearance to your app's branding.
 
-## Configuring theme
-
-Create a new ICCheckoutTheme object and specify the following:
-
-Note: Those are the default theme settings
-
 ```Swift
-let theme                  = ICCheckoutTheme()
-theme.labelFontSize        = 13.0
-theme.placeholderFontSize  = 13.0
-theme.textFieldBorderColor = UIColor.gray.withAlphaComponent(0.3)
-theme.placeholderAlignment = .left
-theme.textFieldFont        = UIFont.systemFont(ofSize: 14.0)
-theme.labelTextColor       = .defaultTextColor
-theme.placeholderColor     = .lightGrayColor
-theme.barButtonItemColor   = .buttonEnabled
-theme.textFieldTextColor   = .defaultTextColor
-theme.navigationTitleColor = .defaultTextColor
+let themeManager              = ThemeManager()
+themeManager.darkMode         = false
+themeManager.merchantText     = ""
+themeManager.fontFamily       = .caros
+themeManager.darkMode         = false
+themeManager.toolbarTextColor = .white
+themeManager.buttonTextColor  = .white
+themeManager.fontFamily       = ICFontFamily.caros
+sdk.changeThemeManager(themeManager: themeManager)
 ```
 
+ ## Enumerators
+ 
+ Operation statuses :
+  
+```Swift
+ICOpeartionStatus.completedSuccessfull                  
+ICOpeartionStatus.technicalIssue                        
+ICOpeartionStatus.invalidRequest                        
+ICOpeartionStatus.rejectedByPaymentGatewayRiskAssesment 
+ICOpeartionStatus.rejectedByIssuer                      
+ICOpeartionStatus.statusInsufficientFunds               
+ICOpeartionStatus. rejectedByIssuerRiskAssesment        
+ICOpeartionStatus.invalidCard                           
+ICOpeartionStatus.invalidAmount                         
+ICOpeartionStatus.failed3DS                             
+ICOpeartionStatus.threeDSUserInputTimerOut              
+ICOpeartionStatus.noCustomerInputOr3DSResponse          
+ICOpeartionStatus.cancelledByTheCustomerNo3DSResponse   
+ICOpeartionStatus.reversed                              
+ICOpeartionStatus.internalError                         
+ICOpeartionStatus.notFound                              
+```
+
+Card types :
+
+```Swift
+ICCardType.cardTypeMastercard      
+ICCardType.cardTypeMaestro         
+ICCardType.cardTypeVisa            
+ICCardType.cardTypeElectron        
+ICCardType.cardTypeVpay            
+ICCardType.cardTypeJcb             
+ICCardType.cardTypeBanContact      
+ICCardType.cardTypeAmericanExpress 
+ICCardType.cardTypeUnionPay        
+```
+
+Fonts :
+
+```Swift
+ICFontFamily.caros
+ICFontFamily.lato
+ICFontFamily.montseratt
+ICFontFamily.opensans
+ICFontFamily.raleway
+ICFontFamily.roboto
+ICFontFamily.robotoSlab
+ICFontFamily.sfProDisplay
+```
