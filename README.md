@@ -85,7 +85,7 @@ Accepting mobile payments for merchants
                         clientPrivateKey  : "MIIBkDCB+q ..",    
                         icardPublicKey    : "MIICXAIBAAKBg..",  
                         originator        : "33",
-                        backendUrl        : "",
+                        backendUrl        : "https://callback.url/",
                         taxUrl            : "",
                         language          : "en",   // Available languages en, bg, de, es, it, nl, ro. Translation is managed by SDK.
                         clientDetails     : nil,
@@ -94,9 +94,25 @@ Accepting mobile payments for merchants
     
 ```
  
- The SDK allows further configuration by using the existing settings. These are the options:
-  * Supported card networks – Allows you to determine the accepted card networks when using your app. The default value includes Visa, Visa Electron, MasterCard, Maestro and VPay.
-  * Address Verification Service (AVS) – You will be able to capture the consumer’s country and postcode as an additional security layer.
+ Additional information:
+
+  * At backendUrl you will be notified about payment status after completion. Below are the returned parameters. For more information about signature verification please visit our documentation [here](https://icard.direct/documents/IPG_API_v3.4_22.pdf).
+```Kotlin
+    IPGmethod       => IPGPurchaseOK 
+    MID             => '000000000000123'
+    OrderID         => '1854'
+    Amount          => '23.45'
+    Currency        => '978'
+    CustomerIP      => '82.119.81.30'
+    CardType        => 'MasterCard'
+    Pan             => '4567'
+    ExpdtYYMM       => '2112'
+    Approval        => 'MSQI258'
+    IPG_Trnref      => '20210716141055303234'
+    RequestSTAN     => '349875'
+    RequestDateTime => '2021-07-16 14:10:55'
+    Signature       => 'kcBs8LoJkXZlclhpykaWIx............'
+```
   
   ## Make a payment with a new or already stored card
    
