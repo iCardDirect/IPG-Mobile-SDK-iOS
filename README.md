@@ -96,23 +96,7 @@ Accepting mobile payments for merchants
  
  Additional information:
 
-  * At backendUrl you will be notified about payment status after completion. Below are the returned parameters. For more information about signature verification please visit our documentation [here](https://icard.direct/documents/IPG_API_v3.4_22.pdf).
-```Kotlin
-    IPGmethod       => IPGPurchaseOK 
-    MID             => '000000000000123'
-    OrderID         => '1854'
-    Amount          => '23.45'
-    Currency        => '978'
-    CustomerIP      => '82.119.81.30'
-    CardType        => 'MasterCard'
-    Pan             => '4567'
-    ExpdtYYMM       => '2112'
-    Approval        => 'MSQI258'
-    IPG_Trnref      => '20210716141055303234'
-    RequestSTAN     => '349875'
-    RequestDateTime => '2021-07-16 14:10:55'
-    Signature       => 'kcBs8LoJkXZlclhpykaWIx............'
-```
+  * At backendUrl you will be notified about payment status after completion. In body of your HTTP response you should include only the string OK. Otherwise, we will decline the transaction and will generate a reversal. After each method you will find parameters, which you will receive at the backendUrl. For more information about signature verification please visit our documentation [here](https://icard.direct/documents/IPG_API_v3.4_22.pdf).
   
   ## Make a payment with a new or already stored card
    
@@ -138,6 +122,37 @@ public protocol ICCheckoutSdkPurchaseDelegate {
 ```
 Note: Please make sure that you are using a unique Order ID.
 
+   ### Below are the POST parameters that you will receive at provided backendUrl:
+
+#### On success:
+```Swift
+    IPGmethod       => IPGPurchaseNotify  
+    MID             => '000000000000123'
+    OrderID         => '1854'
+    Amount          => '23.45'
+    Currency        => '978'
+    CustomerIP      => '82.119.81.30'
+    CardType        => 'MasterCard'
+    Pan             => '4567'
+    ExpdtYYMM       => '2112'
+    Approval        => 'MSQI258'
+    IPG_Trnref      => '20210716141055303234'
+    RequestSTAN     => '349875'
+    RequestDateTime => '2021-07-16 14:10:55'
+    Signature       => 'kcBs8LoJkXZlclhpykaWIx............'
+ ```
+ 
+#### On failure:
+```Swift
+    IPGmethod       => IPGPurchaseRollback
+    MID             => '000000000000123'
+    OrderID         => '1854'
+    Amount          => '23.45'
+    Currency        => '978'
+    CustomerIP      => '82.119.81.30'
+    Signature       => 'kcBs8LoJkXZlclhpykaWIx............'
+ ```
+ 
 ## Make a payment and store card
 ```Swift
 ICardDirectSDK.shared.storeCardAndPurchase(
@@ -159,6 +174,39 @@ public protocol CardStoreDelegate {
 
 Note: Please make sure that you are using a unique Order ID.
 
+### Below are the POST parameters that you will receive at provided backendUrl:
+
+#### On success:
+```Swift
+   IPGmethod       => IPGStoreCardNotify
+   MID             => '000000000000123'
+   OrderID         => '1854'
+   Amount          => '23.45'
+   Currency        => '978'
+   CustomerIP      => '82.119.81.30'
+   Token           => 'D747458899D….FC43D5'
+   Cardholder Name => 'Dimitar Dimitrov'
+   CardType        => 'MasterCard'
+   Custom Name     => 'My VISA card from iCard'
+   Pan             => '4567'
+   Approval        => 'MSQI258'
+   IPG_Trnref      => '20210716141055303234'
+   RequestSTAN     => '349875'
+   RequestDateTime => '2021-07-16 14:10:55'
+   Signature       => 'kcBs8LoJkXZlclhpykaWIx............'
+ ```
+ 
+#### On failure:
+```Swift
+   IPGmethod       => IPGPurchaseRollback
+   MID             => '000000000000123'
+   OrderID         => '1854'
+   Amount          => '23.45'
+   Currency        => '978'
+   CustomerIP      => '82.119.81.30'
+   Signature       => 'kcBs8LoJkXZlclhpykaWIx............'
+```
+
 ## Add a Card
 
 ```Swift
@@ -179,6 +227,39 @@ public protocol CardStoreDelegate {
 ```
 
 Note: Please make sure that you are using a unique Order ID. 
+
+### Below are the POST parameters that you will receive at provided backendUrl:
+
+#### On success:
+```Swift
+   IPGmethod       => IPGStoreCardNotify
+   MID             => '000000000000123'
+   OrderID         => '1854'
+   Amount          => '23.45'
+   Currency        => '978'
+   CustomerIP      => '82.119.81.30'
+   Token           => 'D747458899D….FC43D5'
+   Cardholder Name => 'Dimitar Dimitrov'
+   CardType        => 'MasterCard'
+   Custom Name     => 'My VISA card from iCard'
+   Pan             => '4567'
+   Approval        => 'MSQI258'
+   IPG_Trnref      => '20210716141055303234'
+   RequestSTAN     => '349875'
+   RequestDateTime => '2021-07-16 14:10:55'
+   Signature       => 'kcBs8LoJkXZlclhpykaWIx............'
+```
+
+#### On failure:
+```Swift
+   IPGmethod       => IPGPurchaseRollback
+   MID             => '000000000000123'
+   OrderID         => '1854'
+   Amount          => '23.45'
+   Currency        => '978'
+   CustomerIP      => '82.119.81.30'
+   Signature       => 'kcBs8LoJkXZlclhpykaWIx............'
+```
 
 ## Perform a Refund
 
