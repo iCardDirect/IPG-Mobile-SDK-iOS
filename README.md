@@ -72,13 +72,23 @@ Accepting mobile payments for merchants
   1. Add following code into the Mobile App podfile and run pod install:
     
    ```Swift
-      pod 'iCardDirectMobileSDK', :podspec => 'https://icard.com/iCardDirectSdk/1.0.3/iCardDirectMobileSDK'
+      pod 'iCardDirectMobileSDK', :podspec => 'https://icard.com/iCardDirectSdk/1.0.4/iCardDirectMobileSDK'
    ```
   
   ## Initialization
   
 ```Swift
     let sdk = ICardDirectSDK.shared
+    
+    let clDetails                       = ICClientDetails()
+    clDetails.name                      = ""
+    clDetails.billingAddress            = ""
+    clDetails.billingAddressCity        = ""
+    clDetails.billingAddressCountry     = ""
+    clDetails.emailAddress              = ""
+    clDetails.billingAddressPostCode    = ""
+    clDetails.customerIdentifier        = ""
+    
     sdk.initialize(    
                         mid               :"112",             
                         currency          : "EUR",              
@@ -88,7 +98,7 @@ Accepting mobile payments for merchants
                         backendUrl        : "https://callback.url/",
                         taxUrl            : "",
                         language          : "en",   // Available languages en, bg, de, es, it, nl, ro. Translation is managed by SDK.
-                        clientDetails     : nil,
+                        clientDetailes    : clDetails,
                         keyIndex          : 1,      
                         isSandbox         : true)
     
