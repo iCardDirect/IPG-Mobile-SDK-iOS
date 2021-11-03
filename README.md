@@ -72,7 +72,7 @@ Accepting mobile payments for merchants
   1. Add following code into the Mobile App podfile and run pod install:
     
    ```Swift
-      pod 'iCardDirectMobileSDK', :podspec => 'https://icard.com/iCardDirectSdk/1.0.4/iCardDirectMobileSDK'
+      pod 'iCardDirectMobileSDK', :podspec => 'https://icard.com/iCardDirectSdk/1.0.5/iCardDirectMobileSDK'
    ```
   
   ## Initialization
